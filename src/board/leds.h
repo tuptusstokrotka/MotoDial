@@ -7,7 +7,7 @@
 
 #define LED_PIN     18
 #define NUMPIXELS   1
-#define BRIGHTNESS  128
+#define BRIGHTNESS  0x10
 
 /**
  * @brief Get a gradient color based on the value and max

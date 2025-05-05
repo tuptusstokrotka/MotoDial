@@ -28,6 +28,7 @@ enum class State {
 class Board {
 private:
     State state = State::IDLE;
+    uint16_t errorCode = 0x00;
 
     // Components
     AngleMeter angleMeter;
@@ -51,9 +52,12 @@ public:
     inline void SetState(State state) { this->state = state; }
 
     // API
-    // inline void InvertDirection()                { angleMeter.InvertDirection(); }
-    // inline void SetHoldTime(uint32_t holdTime)   { angleMeter.SetHoldTime(holdTime); }
-    // inline void SetAlpha(uint32_t alpha)         { angleMeter.SetAlpha(alpha); }
+    inline void InvertDirection(bool invert) { angleMeter.InvertDirection(invert); }
+    inline void SetHoldTime(uint32_t holdTime) { angleMeter.SetHoldTime(holdTime); }
+    inline void SetAlpha(uint32_t alpha) { angleMeter.SetAlpha(alpha); }
+
+    // API - LED ONLY
+    // inline void SetMaxAngle(uint32_t maxAngle) { .....SetMaxAngle(maxAngle); }
 };
 
 #endif // BOARD_H

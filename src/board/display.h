@@ -14,7 +14,7 @@ extern const char* CheerPhrases(int angle);
 
 class Display : public Adafruit_SSD1306 {
 private:
-    int text_size = 1;
+    int text_size = 1; // Required for text positioning
 public:
     Display();
     ~Display();

@@ -17,11 +17,11 @@
 #pragma endregion
 
 #define BMI_ADDRESS 0x69
+#define MAX_ANGLE_RANGE         70      // degrees
+#define MAX_ANGLE_HOLD_TIME     10000   // ms
+#define ALPHA                   0.92f   // Complementary filter
 
-#define CALIBRATION_THRESHOLD 15    // degrees
-#define MAX_ANGLE_RANGE 70          // degrees
-#define MAX_ANGLE_HOLD_TIME 10000   // ms
-#define ALPHA 0.92f                 // Complementary filter
+#define CALIBRATION_THRESHOLD   15      // degrees //DELETE
 
 // DUMMY for testing - calibration will get the correct offsets
 enum class eAxis { //DEBUG
@@ -44,9 +44,12 @@ class AngleMeter : public DFRobot_BMI160 {
 private:
 /*  Configuration  */
     int address = 0;
-    // eAxis mode  = eAxis::_CALIBRATE;    //DEBUG
-    eAxis mode  = eAxis::_ROLL;         //DEBUG
+    unsigned long holdTime = MAX_ANGLE_HOLD_TIME;
+    float alpha = ALPHA;
     bool invertDirection = false;
+
+    // eAxis mode  = eAxis::_CALIBRATE; //DELETE
+    eAxis mode  = eAxis::_ROLL;         //DELETE
 
     float pitch_offset = 0;
     float roll_offset  = 0;
@@ -59,9 +62,8 @@ private:
     // Max angles
     MaxAngle LMax;
     MaxAngle RMax;
-
-
     unsigned long lastUpdateTime = 0;
+
     void Read();
 
 public:
@@ -69,9 +71,13 @@ public:
     ~AngleMeter();
 
     bool Init();
+    void Update();
     bool Calibrate();
 
-    void Update();
+    // Configuration
+    inline void InvertDirection(bool invert) { this->invertDirection = invert; }
+    inline void SetHoldTime(unsigned long holdTime) { this->holdTime = holdTime; }
+    inline void SetAlpha(float alpha) { this->alpha = alpha; }
 
     inline eAxis GetMode() { return mode; }
 
@@ -81,7 +87,7 @@ public:
 
     // Absolute Angles - Selected Axis ONLY
     uint32_t GetAngle();
-    inline uint32_t GetLMax()  { return LMax.GetValue(); }
-    inline uint32_t GetRMax()  { return RMax.GetValue(); }
+    inline uint32_t GetLMax() { return LMax.GetValue(); }
+    inline uint32_t GetRMax() { return RMax.GetValue(); }
 };
 #endif
