@@ -12,25 +12,17 @@
 
 extern const char* CheerPhrases(int angle);
 
-class Display {
+class Display : public Adafruit_SSD1306 {
 private:
-    Adafruit_SSD1306* ssd1306 = nullptr;
     int text_size = 1;
-
-    String FloatToStr(float num);
-
 public:
     Display();
     ~Display();
 
     // Initialization
     void Init();
-    // Clear and display
-    void Clear();
-    void Show();
 
     // Text Configuration
-    void SetCursor(int16_t x, int16_t y);
     void SetTextSize(int16_t font_size);
 
     // Text Positioning
@@ -38,6 +30,6 @@ public:
     void LeftText(String text, int16_t line);
     void RightText(String text, int16_t line);
 
-    // Text Printing
-    void Print(String text);
+    // Float to String - for Angle with precision
+    String FloatToStr(float num);
 };

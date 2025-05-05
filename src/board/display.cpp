@@ -15,79 +15,44 @@ const char* CheerPhrases(int angle) {
     else                 return "HOLY SHIT!";
 }
 
-Display::Display() { }
+Display::Display() : Adafruit_SSD1306(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET) { }
 
-Display::~Display() {
-    delete ssd1306;
-}
+Display::~Display() { }
 
 String Display::FloatToStr(float num) {
-    if (num < 10)
+    if (num < 10 && num > -10)
         return String(num, 1);
     else
         return String(num, 0);
 }
 
-
 void Display::Init() {
-    ssd1306 = new Adafruit_SSD1306(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
-    if(ssd1306->begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
-        Serial.println("SSD1306 Init Success");
-    }
-    else {
-        Serial.println("SSD1306 Init Failed");
-    }
-    Show();
-}
-
-void Display::Clear() {
-    ssd1306->clearDisplay();
-    Serial.println("SSD1306 Clear");
-}
-
-void Display::Show() {
-    ssd1306->display();
-    Serial.println("SSD1306 Show");
-}
-
-
-void Display::SetCursor(int16_t x, int16_t y) {
-    ssd1306->setCursor(x, y);
+    begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);
+    setTextColor(SSD1306_WHITE);
 }
 
 void Display::SetTextSize(int16_t font_size) {
     text_size = font_size;
-    ssd1306->setTextSize(font_size);
+    setTextSize(font_size);
 }
-
 
 void Display::CenterText(String text, int16_t line){
     int X = (SCREEN_WIDTH - (text.length() * FONT_WIDTH * text_size)) / 2;
     int Y = line * FONT_HEIGHT * text_size;
-    ssd1306->setCursor(X, Y);
-    ssd1306->print(text);
-
-    Serial.println("Display CenterText");
-    Serial.println(text);
-    Serial.println(X);
-    Serial.println(Y);
+    setCursor(X, Y);
+    print(text);
 }
 
 void Display::LeftText(String text, int16_t line){
     int X = 0;
     int Y = line * FONT_HEIGHT * text_size;
-    ssd1306->setCursor(X, Y);
-    ssd1306->print(text);
+    setCursor(X, Y);
+    print(text);
 }
 
 void Display::RightText(String text, int16_t line){
     int X = SCREEN_WIDTH - (text.length() * FONT_WIDTH * text_size);
     int Y = line * FONT_HEIGHT * text_size;
-    ssd1306->setCursor(X, Y);
-    ssd1306->print(text);
-}
-
-
-void Display::Print(String text) {
-    ssd1306->print(text);
+    setCursor(X, Y);
+    print(text);
 }

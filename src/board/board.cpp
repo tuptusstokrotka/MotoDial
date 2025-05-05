@@ -15,7 +15,8 @@ void Board::Init() {
     angleMeter.Init();
     // OLED
     #ifdef OLED_ENABLE
-        display.Init();
+        display = new Display();
+        display->Init();
     #endif
     // LED
     #ifdef LED_ENABLE
@@ -28,12 +29,11 @@ void Board::Init() {
 }
 
 void Board::Update() {
-    // angleMeter.Update();
+    angleMeter.Update();
 
     LedUpdate();
     DisplayUpdate();
     ButtonUpdate();
-
 }
 
 void Board::Calibrate() {
@@ -45,19 +45,22 @@ void Board::LedUpdate() {
     if (pixels == nullptr)
         return;
 
-    // pixels->setPixelColor(0, GradientColor(angleMeter.GetAngle(), MAX_ANGLE));
-    pixels->setPixelColor(0, pixels->Color(0, 0, 0)); //DEBUG
+    pixels->setPixelColor(0, GradientColor(angleMeter.GetAngle(), MAX_ANGLE));
     pixels->show();
 }
 
 void Board::DisplayUpdate() {
-    display.Clear();
-    display.SetTextSize(1);
-    // display.CenterText(String(angleMeter.GetAngle()), 0);
-    display.LeftText("TEST", 0);
-    display.CenterText("TEST", 1);
-    display.RightText("TEST", 2);
-    display.Show();
+    if (display == nullptr)
+        return;
+
+    display->clearDisplay();
+    display->SetTextSize(5);
+    display->CenterText(String(angleMeter.GetAngle()), 0);
+
+    display->SetTextSize(2);
+    display->LeftText( String(angleMeter.GetLMax()), 3);
+    display->RightText(String(angleMeter.GetRMax()), 3);
+    display->display();
 }
 
 void Board::ButtonUpdate() {

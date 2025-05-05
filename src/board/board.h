@@ -9,8 +9,8 @@
 #include "leds.h"
 
 // I2C
-#define SDA 21
-#define SCL 22
+#define SDA (int)21
+#define SCL (int)22
 
 // Angle Meter
 #define MAX_ANGLE 70 //DEBUG
@@ -31,7 +31,7 @@ private:
 
     // Components
     AngleMeter angleMeter;
-    Display display;
+    Display* display = nullptr;
     Adafruit_NeoPixel* pixels = nullptr;
 
     inline State GetState() { return state; }
