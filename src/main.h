@@ -24,6 +24,14 @@
     #endif
 #pragma endregion
 
+#ifndef PASS_ENABLE
+    #define WIFI_AP_PASSWORD NULL
+#endif
+
+#ifndef WIFI_AP_PASSWORD
+    #define WIFI_AP_PASSWORD NULL
+#endif
+
 AsyncWebServer server(80);
 // WebServer WebServer; //TODO - maybe redundant
 Board board;

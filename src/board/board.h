@@ -7,16 +7,22 @@
 #include "angleMeter.h"
 #include "display.h"
 #include "leds.h"
+#include "FastButton.h"
 
 // I2C
-#define SDA (int)21
-#define SCL (int)22
+#define SDA (int)6
+#define SCL (int)7
+
+// Button
+#define BUTTON_PIN (int)1
+
+// Led
+#define LED_PIN     (int)0
+#define NUMPIXELS   (int)1
+#define BRIGHTNESS  (int)0x10
 
 // Angle Meter
 #define MAX_ANGLE 70 //DEBUG
-
-// Button
-#define BUTTON_PIN 19
 
 enum class State {
     IDLE,
@@ -31,9 +37,10 @@ private:
     uint16_t errorCode = 0x00;
 
     // Components
+    FastButton button;
     AngleMeter angleMeter;
-    Display* display = nullptr;
-    Adafruit_NeoPixel* pixels = nullptr;
+    Display display;
+    Adafruit_NeoPixel pixels;
 
     inline State GetState() { return state; }
 

@@ -1,6 +1,16 @@
-// CONFIG
+// HARDWARE CONFIG
     #define OLED_ENABLE
     #define LED_ENABLE
+
+// WIFI CONFIG
+    #define WIFI_ENABLE
+    // #define PASS_ENABLE
+    // At least 8 characters
+    #ifdef PASS_ENABLE
+        #define WIFI_AP_PASSWORD "password"
+    #endif
+
+// WIFI MODULES
     #define OTA_ENABLE
     #define WEB_SERVER_ENABLE
 
